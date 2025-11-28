@@ -26,22 +26,46 @@ export async function getFseMenu(slug: string): Promise<MenuItem[]> {
 
   const root = parseHtml(renderedHtml);
 
-  // 1. FALL: Navigation Block
-  const navUl =
+  // 1. Versuch: echtes <ul> finden (Navigation- oder Page-List-Container)
+  let navUl =
     root.querySelector("ul.wp-block-navigation__container") ||
-    root.querySelector("ul.wp-block-page-list") || // 2. FALL: Page List Block
-    root.querySelector("ul"); // Fallback
+    root.querySelector("ul.wp-block-page-list");
+
+  // NEU: wenn kein <ul>-Container da ist, aber einzelne <li>s → künstlich wrappen
+  if (!navUl) {
+    const hasTopLevelLis =
+      root.querySelectorAll(
+        ":scope > li.wp-block-navigation-item, :scope > li.wp-block-pages-list__item"
+      ).length > 0;
+
+    if (hasTopLevelLis) {
+      // Wir bauen selbst ein <ul> um dein Markup
+      const wrapped = parseHtml(
+        `<ul class="wp-block-navigation__container">${renderedHtml}</ul>`
+      );
+
+      navUl =
+        wrapped.querySelector("ul.wp-block-navigation__container") ||
+        wrapped.querySelector("ul");
+
+      if (!navUl) return [];
+
+      return parseUniversalList(navUl as HTMLElement);
+    }
+
+    // Fallback wie bisher: irgendein <ul>
+    navUl = root.querySelector("ul");
+  }
 
   if (!navUl) return [];
 
-  return parseUniversalList(navUl);
+  return parseUniversalList(navUl as HTMLElement);
 }
 
-// UNIVERSAL-PARSER !!
+// UNIVERSAL-PARSER !! (unverändert)
 function parseUniversalList(ul: HTMLElement): MenuItem[] {
   const items: MenuItem[] = [];
 
-  // Erlaubte LI-Klassen für beide Menütypen
   const liSelectors = [
     ":scope > li.wp-block-navigation-item",
     ":scope > li.wp-block-navigation__container-item",
@@ -52,32 +76,29 @@ function parseUniversalList(ul: HTMLElement): MenuItem[] {
   const lis = ul.querySelectorAll(liSelectors.join(","));
 
   lis.forEach((li) => {
-    // Navigation Block Link
     const aNav = li.querySelector("a.wp-block-navigation-item__content");
-
-    // Page List Link
     const aPage = li.querySelector("a.wp-block-pages-list__item__link");
-
     const a = aNav || aPage || li.querySelector("a");
 
     if (!a) return;
 
     let rawUrl = a.getAttribute("href") ?? "#";
-    let label = a.text.trim();
+    const label = a.text.trim();
 
-    // URL normalisieren (nur /pageurl)
     try {
       const base = new URL(WP_URL);
       const absolute = new URL(rawUrl, base);
       rawUrl = absolute.pathname;
-    } catch (e) {}
+    } catch (e) {
+      // ignore, rawUrl bleibt so
+    }
 
-    // Submenu finden (Navigation Block)
     const submenu =
-      li.querySelector(":scope > ul.wp-block-navigation__submenu-container") ||
-      li.querySelector(":scope > ul");
+      li.querySelector(
+        ":scope > ul.wp-block-navigation__submenu-container"
+      ) || li.querySelector(":scope > ul");
 
-    const children = submenu ? parseUniversalList(submenu) : [];
+    const children = submenu ? parseUniversalList(submenu as HTMLElement) : [];
 
     items.push({
       label,
