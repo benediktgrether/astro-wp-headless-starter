@@ -1,0 +1,21 @@
+---
+// src/pages/blog/[slug].astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+	getStaticPathsForType,
+	getEntryBySlug,
+	type WpEntry,
+} from '../../lib/wp-content';
+
+export async function getStaticPaths() {
+	return getStaticPathsForType('post');
+}
+
+const { slug } = Astro.props;
+const post = (await getEntryBySlug('post', slug)) as WpEntry;
+---
+
+<BaseLayout title={post.title}>
+	<h1>{post.title}</h1>
+	<div set:html={post.content} />
+</BaseLayout>
