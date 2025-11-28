@@ -1,0 +1,45 @@
+---
+import Container from '../../layouts/Container.astro';
+import Text from './Text.astro';
+
+type Block = {
+	name: string;
+	attributes?: Record<string, any>;
+	innerBlocks?: Block[];
+};
+
+const { blocks = [] } = Astro.props as { blocks?: Block[] };
+---
+
+{
+	(() => {
+		const renderBlocks = (blocksToRender: Block[] = []): any =>
+			blocksToRender.map((block) => {
+				const { name, attributes = {}, innerBlocks = [] } = block;
+
+				// 1) core/post-content = Wrapper → nur Kinder rendern
+				if (name === 'core/post-content') {
+					return renderBlocks(innerBlocks);
+				}
+
+				// 2) Container-Block → rendert seine innerBlocks als Children
+				if (name === 'basetheme/container') {
+					return (
+						<Container attributes={attributes}>
+							{renderBlocks(innerBlocks)}
+						</Container>
+					);
+				}
+
+				// 3) Text-Block → rendert nur sich selbst
+				if (name === 'basetheme/text') {
+					return <Text attributes={attributes} />;
+				}
+
+				// 4) Fallback: unbekannte Blöcke ignorieren
+				return null;
+			});
+
+		return renderBlocks(blocks);
+	})()
+}

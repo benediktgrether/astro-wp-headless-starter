@@ -1,7 +1,8 @@
 ---
-
+const { attributes = {}, children } = Astro.props;
+// attributes kannst du später für width/bg usw. nutzen
 ---
 
-<div class="container mx-auto px-4">
+<section class="container mx-auto px-4">
 	<slot />
-</div>
+</section>

@@ -1,11 +1,18 @@
 // src/lib/wp-content.ts
 import { wpQuery } from './wp';
 
+export type WpBlock = {
+  name: string;
+  attributes?: Record<string, any>;
+  innerBlocks?: WpBlock[];
+};
+
 export interface WpEntry {
   title: string;
   slug: string;
   date?: string | null;
   content: string;
+  blocks?: WpBlock[];
 }
 
 export type WpType = 'post' | 'page';
@@ -114,6 +121,7 @@ export async function getEntryBySlug(
             slug
             date
             content(format: RENDERED)
+            blocks 
           }
         }
       }
@@ -129,7 +137,10 @@ export async function getEntryBySlug(
       throw new Error(`page with slug "${slug}" not found`);
     }
 
-    return page;
+    return {
+      ...page,
+      blocks: page.blocks ?? [],
+    };
   }
 
   throw new Error(`Unsupported type "${type}" in getEntryBySlug`);
