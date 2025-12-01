@@ -1,6 +1,7 @@
 ---
-import Container from '../../layouts/Container.astro';
-import Text from './Text.astro';
+import Container from '@layouts/Container.astro';
+import Text from '@components/atoms/Text.astro';
+import Headline from '@components/atoms/Headline.astro';
 
 type Block = {
 	name: string;
@@ -34,6 +35,11 @@ const { blocks = [] } = Astro.props as { blocks?: Block[] };
 				// 3) Text-Block → rendert nur sich selbst
 				if (name === 'basetheme/text') {
 					return <Text attributes={attributes} />;
+				}
+
+				if (name === 'basetheme/heading') {
+					// Dynamisches Importieren des Headline-Components
+					return <Headline attributes={attributes} />;
 				}
 
 				// 4) Fallback: unbekannte Blöcke ignorieren

@@ -1,0 +1,7 @@
+---
+const { attributes = {} } = Astro.props;
+const tag = attributes.tag ?? 'h1';
+const text = attributes.text ?? '';
+---
+
+<div set:html={`<${tag} class="headline">${text}</${tag}>`} />

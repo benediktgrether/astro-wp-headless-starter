@@ -121,7 +121,7 @@ export async function getEntryBySlug(
             slug
             date
             content(format: RENDERED)
-            blocks 
+            blocks(attributes: true)
           }
         }
       }
