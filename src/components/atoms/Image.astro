@@ -1,0 +1,18 @@
+---
+const { attributes = {} } = Astro.props;
+const src: string = attributes.src ?? '';
+const alt: string = attributes.alt ?? '';
+console.log(attributes);
+import type { ImageMetadata, ImageOutputFormat } from 'astro';
+import { Image as AstroImage } from 'astro:assets';
+---
+
+<AstroImage
+	src={attributes.mediaUrl}
+	alt={alt}
+	width={700}
+	height={400}
+	format="webp"
+	class={attributes.className}
+	layout="constrained"
+/>

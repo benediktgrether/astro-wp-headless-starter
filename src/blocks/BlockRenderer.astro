@@ -2,6 +2,7 @@
 import Container from '@layouts/Container.astro';
 import Text from '@components/atoms/Text.astro';
 import Headline from '@components/atoms/Headline.astro';
+import Image from '@components/atoms/Image.astro';
 
 type Block = {
 	name: string;
@@ -40,6 +41,11 @@ const { blocks = [] } = Astro.props as { blocks?: Block[] };
 				if (name === 'basetheme/heading') {
 					// Dynamisches Importieren des Headline-Components
 					return <Headline attributes={attributes} />;
+				}
+
+				if (name === 'basetheme/image') {
+					// Dynamisches Importieren des Image-Components
+					return <Image attributes={attributes} />;
 				}
 
 				// 4) Fallback: unbekannte Blöcke ignorieren
