@@ -15,6 +15,8 @@ export async function getStaticPaths() {
 const { slug } = Astro.props;
 
 const page = (await getEntryBySlug('page', slug)) as WpEntry;
+
+// https://docs.astro.build/de/guides/routing/#example-dynamic-pages-at-multiple-levels
 ---
 
 <BaseLayout title={page.title}>

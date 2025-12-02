@@ -3,6 +3,7 @@ import Container from '@layouts/Container.astro';
 import Text from '@components/atoms/Text.astro';
 import Headline from '@components/atoms/Headline.astro';
 import Image from '@components/atoms/Image.astro';
+import GridContainer from '@layouts/GridContainer.astro';
 
 type Block = {
 	name: string;
@@ -48,6 +49,18 @@ const { blocks = [] } = Astro.props as { blocks?: Block[] };
 					return <Image attributes={attributes} />;
 				}
 
+				if (name === 'basetheme/grid-container') {
+					return (
+						<GridContainer attributes={attributes}>
+							{renderBlocks(innerBlocks)}
+						</GridContainer>
+					);
+				}
+
+				if (name === 'basetheme/grid-item') {
+					// Grid-Item-Block → rendert seine innerBlocks als Children
+					return renderBlocks(innerBlocks);
+				}
 				// 4) Fallback: unbekannte Blöcke ignorieren
 				return null;
 			});
