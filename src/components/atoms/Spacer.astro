@@ -1,13 +1,17 @@
 ---
-const { attributes = {} } = Astro.props;
+const { spacer } = Astro.props;
+console.log(spacer);
 
 const spacerMap: Record<string, string> = {
-	small: 'h-4',
-	medium: 'h-8',
-	large: 'h-16',
+	small: 'p-4',
+	medium: 'p-8',
+	large: 'p-16',
+	xLarge: 'p-32',
+	xxLarge: 'p-48',
+	xxxLarge: 'p-64',
 };
 
-const spacerClass = spacerMap[(attributes.size as string) ?? 'medium'] ?? 'h-8';
+const spacerClass = spacerMap[spacer];
 ---
 
-{attributes.spacer !== 'none' && <div class={`spacer ${spacerClass}`} />}
+{spacer !== 'none' && <div class={`spacer ${spacerClass}`} />}

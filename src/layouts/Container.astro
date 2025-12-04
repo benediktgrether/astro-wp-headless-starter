@@ -1,8 +1,12 @@
 ---
-const { attributes = {}, children } = Astro.props;
-// attributes kannst du später für width/bg usw. nutzen
+import Spacer from '@components/atoms/Spacer.astro';
+
+const { attributes, children } = Astro.props;
+
+const { spacer } = attributes;
 ---
 
 <section class="container mx-auto px-4">
+	<Spacer spacer={spacer} />
 	<slot />
 </section>
