@@ -7,6 +7,7 @@ const { spacer } = attributes;
 ---
 
 <section class="container mx-auto px-4">
-	<Spacer spacer={spacer} />
-	<slot />
+	<Spacer spacer={spacer}>
+		<slot />
+	</Spacer>
 </section>

@@ -1,17 +1,26 @@
 ---
+import { undefined } from 'astro:schema';
+
 const { spacer } = Astro.props;
 console.log(spacer);
 
 const spacerMap: Record<string, string> = {
-	small: 'p-4',
-	medium: 'p-8',
-	large: 'p-16',
-	xLarge: 'p-32',
-	xxLarge: 'p-48',
-	xxxLarge: 'p-64',
+	xSmall: 'pt-2',
+	small: 'pt-4',
+	medium: 'pt-8',
+	large: 'pt-16',
+	xLarge: 'pt-32',
+	xxLarge: 'pt-48',
+	xxxLarge: 'pt-64',
 };
 
-const spacerClass = spacerMap[spacer];
+const spacerClass = spacerMap[spacer] ?? spacerMap['medium'];
 ---
 
-{spacer !== 'none' && <div class={`spacer ${spacerClass}`} />}
+{
+	spacer !== 'none' && (
+		<div class={`spacer ${spacerClass}`}>
+			<slot />
+		</div>
+	)
+}
