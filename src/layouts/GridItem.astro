@@ -17,6 +17,6 @@ const widthMap: Record<string, string> = {
 const columnsWidthClass = widthMap[width] ?? 'col-span-6'; // fallback
 ---
 
-<div class={`${columnsWidthClass} border border-gray-300 p-4`}>
+<div class={`${columnsWidthClass} p-4`}>
 	<slot />
 </div>
