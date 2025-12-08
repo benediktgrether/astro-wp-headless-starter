@@ -5,6 +5,7 @@ import Headline from '@components/atoms/Headline.astro';
 import Image from '@components/atoms/Image.astro';
 import GridContainer from '@layouts/GridContainer.astro';
 import GridItem from '@layouts/GridItem.astro';
+import BigTeaser from '@components/organisms/Big-Teaser.astro';
 
 type Block = {
 	name: string;
@@ -66,6 +67,11 @@ const { blocks = [] } = Astro.props as { blocks?: Block[] };
 						</GridItem>
 					);
 				}
+
+				if (name === 'basetheme/big-teaser') {
+					return <BigTeaser attributes={attributes} />;
+				}
+
 				// 4) Fallback: unbekannte Blöcke ignorieren
 				return null;
 			});
