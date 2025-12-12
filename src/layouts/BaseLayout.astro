@@ -7,17 +7,17 @@ const { title } = Astro.props;
 ---
 
 <html lang="de">
-	<head>
-		<meta charset="utf-8" />
-		<title>{title}</title>
-	</head>
-	<body>
-		<header>
-			<NavMenu />
-		</header>
+    <head>
+        <meta charset="utf-8" />
+        <title>{title}</title>
+    </head>
+    <body>
+        <header>
+            <NavMenu />
+        </header>
 
-		<main class="mt-20">
-			<slot />
-		</main>
-	</body>
+        <main class="mt-20">
+            <slot />
+        </main>
+    </body>
 </html>
