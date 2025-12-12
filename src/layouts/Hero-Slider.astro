@@ -1,0 +1,10 @@
+---
+const { attributes } = Astro.props;
+console.log('Hero-Slider attributes:', attributes);
+---
+
+<section class={`hero-slider swiper swiper-id-${attributes.uuid}`}>
+    <div class="swiper-wrapper">
+        <slot />
+    </div>
+</section>
