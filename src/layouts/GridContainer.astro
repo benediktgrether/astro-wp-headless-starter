@@ -1,5 +1,5 @@
 ---
-import Spacer from '@components/atoms/Spacer.astro';
+import Spacer from "@components/atoms/Spacer.astro";
 
 const { attributes, children } = Astro.props;
 
@@ -7,9 +7,9 @@ const { spacer } = attributes;
 ---
 
 <section>
-	<Spacer spacer={spacer}>
-		<div class="container mx-auto grid grid-cols-12 gap-4">
-			<slot />
-		</div>
-	</Spacer>
+  <Spacer spacer={spacer}>
+    <div class="container mx-auto grid grid-cols-12 gap-4">
+      <slot />
+    </div>
+  </Spacer>
 </section>

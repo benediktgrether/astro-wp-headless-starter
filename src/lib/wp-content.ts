@@ -1,5 +1,5 @@
 // src/lib/wp-content.ts
-import { wpQuery } from './wp';
+import { wpQuery } from "./wp";
 
 export type WpBlock = {
   name: string;
@@ -15,17 +15,17 @@ export interface WpEntry {
   blocks?: WpBlock[];
 }
 
-export type WpType = 'post' | 'page';
+export type WpType = "post" | "page";
 
 const TYPE_CONFIG: Record<WpType, { single: string; plural: string }> = {
-  post: { single: 'post', plural: 'posts' },
-  page: { single: 'page', plural: 'pages' },
+  post: { single: "post", plural: "posts" },
+  page: { single: "page", plural: "pages" },
 };
 
 export async function getStaticPathsForType(type: WpType) {
   const { plural } = TYPE_CONFIG[type];
 
-  if (type === 'page') {
+  if (type === "page") {
     const LIST_QUERY = `
       query AllPages {
         pages(first: 100) {
@@ -46,7 +46,7 @@ export async function getStaticPathsForType(type: WpType) {
     return nodes.map((node) => {
       // z.B. uri: "/seitentyp-a/seitentyp-a-a/"
       // => "seitentyp-a/seitentyp-a-a"
-      const slugPath = node.uri.replace(/^\/|\/$/g, '');
+      const slugPath = node.uri.replace(/^\/|\/$/g, "");
 
       return {
         // WICHTIG: slug ist ein STRING, KEIN Array
@@ -59,7 +59,7 @@ export async function getStaticPathsForType(type: WpType) {
   }
 
   // POSTS bleiben wie bisher
-  if (type === 'post') {
+  if (type === "post") {
     const LIST_QUERY = `
       query AllPosts {
         posts(first: 100) {
@@ -87,9 +87,9 @@ export async function getStaticPathsForType(type: WpType) {
 
 export async function getEntryBySlug(
   type: WpType,
-  slug: string
+  slug: string,
 ): Promise<WpEntry> {
-  if (type === 'post') {
+  if (type === "post") {
     const ENTRY_QUERY = `
       query PostBySlug($slug: ID!) {
         post(id: $slug, idType: SLUG) {
@@ -112,7 +112,7 @@ export async function getEntryBySlug(
     return data.post;
   }
 
-  if (type === 'page') {
+  if (type === "page") {
     const ENTRY_QUERY = `
       query PageBySlug($slug: String!) {
         pages(where: { name: $slug }) {

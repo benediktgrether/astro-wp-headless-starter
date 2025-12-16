@@ -7,7 +7,7 @@ interface GraphQLResponse<T> {
 
 export async function wpQuery<T>(
   query: string,
-  variables: Record<string, any> = {}
+  variables: Record<string, any> = {},
 ): Promise<T> {
   const res = await fetch(WP_GRAPHQL_ENDPOINT, {
     method: "POST",

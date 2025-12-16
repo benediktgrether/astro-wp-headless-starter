@@ -35,13 +35,13 @@ export async function getFseMenu(slug: string): Promise<MenuItem[]> {
   if (!navUl) {
     const hasTopLevelLis =
       root.querySelectorAll(
-        ":scope > li.wp-block-navigation-item, :scope > li.wp-block-pages-list__item"
+        ":scope > li.wp-block-navigation-item, :scope > li.wp-block-pages-list__item",
       ).length > 0;
 
     if (hasTopLevelLis) {
       // Wir bauen selbst ein <ul> um dein Markup
       const wrapped = parseHtml(
-        `<ul class="wp-block-navigation__container">${renderedHtml}</ul>`
+        `<ul class="wp-block-navigation__container">${renderedHtml}</ul>`,
       );
 
       navUl =
@@ -94,9 +94,8 @@ function parseUniversalList(ul: HTMLElement): MenuItem[] {
     }
 
     const submenu =
-      li.querySelector(
-        ":scope > ul.wp-block-navigation__submenu-container"
-      ) || li.querySelector(":scope > ul");
+      li.querySelector(":scope > ul.wp-block-navigation__submenu-container") ||
+      li.querySelector(":scope > ul");
 
     const children = submenu ? parseUniversalList(submenu as HTMLElement) : [];
 

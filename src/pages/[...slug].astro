@@ -1,31 +1,31 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
 import {
-	getStaticPathsForType,
-	getEntryBySlug,
-	type WpEntry,
-} from '../lib/wp-content';
-import BlockRender from '../blocks/BlockRenderer.astro';
+  getStaticPathsForType,
+  getEntryBySlug,
+  type WpEntry,
+} from "../lib/wp-content";
+import BlockRender from "../blocks/BlockRenderer.astro";
 
 export async function getStaticPaths() {
-	return getStaticPathsForType('page');
+  return getStaticPathsForType("page");
 }
 
 // kommt aus getStaticPaths → props: { slug: node.slug }
 const { slug } = Astro.props;
 
-const page = (await getEntryBySlug('page', slug)) as WpEntry;
+const page = (await getEntryBySlug("page", slug)) as WpEntry;
 
 // https://docs.astro.build/de/guides/routing/#example-dynamic-pages-at-multiple-levels
 ---
 
 <BaseLayout title={page.title}>
-	{
-		page.blocks && page.blocks.length > 0 ? (
-			<BlockRender blocks={page.blocks} />
-		) : (
-			// Fallback für alte Inhalte ohne Blocks
-			<div set:html={page.content} />
-		)
-	}
+  {
+    page.blocks && page.blocks.length > 0 ? (
+      <BlockRender blocks={page.blocks} />
+    ) : (
+      // Fallback für alte Inhalte ohne Blocks
+      <div set:html={page.content} />
+    )
+  }
 </BaseLayout>

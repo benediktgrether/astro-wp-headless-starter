@@ -1,55 +1,55 @@
 ---
-const { variant = 'primary', className, href, target } = Astro.props;
+const { variant = "primary", className, href, target } = Astro.props;
 
 export interface LinkObject {
-	url: string;
-	id: number;
-	title: string;
-	type: string; // e.g. "page"
-	kind: string; // e.g. "post-type"
-	isFrontPage: boolean;
-	openInNewTab: boolean;
+  url: string;
+  id: number;
+  title: string;
+  type: string; // e.g. "page"
+  kind: string; // e.g. "post-type"
+  isFrontPage: boolean;
+  openInNewTab: boolean;
 }
 
 interface Props {
-	variant:
-		| 'primary'
-		| 'primaryOutline'
-		| 'secondary'
-		| 'secondaryOutline'
-		| 'danger';
-	className?: string;
-	href?: string;
-	target?: string;
+  variant:
+    | "primary"
+    | "primaryOutline"
+    | "secondary"
+    | "secondaryOutline"
+    | "danger";
+  className?: string;
+  href?: string;
+  target?: string;
 }
 
 const variantClasses = {
-	primary:
-		'bg-primary-default border-1 border-primary-default text-white hover:bg-primary-hover inline-block',
-	secondary:
-		'bg-secondary-default border-1 border-secondary-default text-white hover:bg-secondary-hover',
-	primaryOutline:
-		'border-1 border-primary-default text-primary-default bg-transparent hover:bg-primary-hover hover:text-white',
-	secondaryOutline:
-		'border-1 border-secondary-default text-secondary-default bg-transparent hover:bg-secondary-hover hover:text-white',
-	danger: 'bg-red-500 text-white border-1 border-red-500 hover:bg-red-600',
+  primary:
+    "bg-primary-default border-1 border-primary-default text-white hover:bg-primary-hover inline-block",
+  secondary:
+    "bg-secondary-default border-1 border-secondary-default text-white hover:bg-secondary-hover",
+  primaryOutline:
+    "border-1 border-primary-default text-primary-default bg-transparent hover:bg-primary-hover hover:text-white",
+  secondaryOutline:
+    "border-1 border-secondary-default text-secondary-default bg-transparent hover:bg-secondary-hover hover:text-white",
+  danger: "bg-red-500 text-white border-1 border-red-500 hover:bg-red-600",
 };
 ---
 
 {
-	href ? (
-		<a
-			href={href}
-			target={target}
-			class={`rounded-3xl px-6 py-4 ${variantClasses[variant]} ${className || ''}`}
-		>
-			<slot />
-		</a>
-	) : (
-		<button
-			class={`rounded-3xl px-3 py-4 ${variantClasses[variant]} ${className || ''}`}
-		>
-			<slot />
-		</button>
-	)
+  href ? (
+    <a
+      href={href}
+      target={target}
+      class={`rounded-3xl px-6 py-4 ${variantClasses[variant]} ${className || ""}`}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button
+      class={`rounded-3xl px-3 py-4 ${variantClasses[variant]} ${className || ""}`}
+    >
+      <slot />
+    </button>
+  )
 }

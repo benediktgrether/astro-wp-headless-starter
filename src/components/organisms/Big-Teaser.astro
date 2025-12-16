@@ -1,6 +1,6 @@
 ---
-import Spacer from '@components/atoms/Spacer.astro';
-import Image from '@components/atoms/Image.astro';
+import Spacer from "@components/atoms/Spacer.astro";
+import Image from "@components/atoms/Image.astro";
 
 const { attributes, children } = Astro.props;
 
@@ -8,30 +8,28 @@ const { spacer } = attributes;
 ---
 
 <section class="big-teaser">
-	<Spacer spacer={spacer}>
-		<div class="relative h-225 w-full">
-			<Image
-				attributes={attributes}
-				width={2440}
-				height={900}
-				format="webp"
-				className="h-full w-full object-cover"
-			/>
+  <Spacer spacer={spacer}>
+    <div class="relative h-225 w-full">
+      <Image
+        attributes={attributes}
+        width={2440}
+        height={900}
+        format="webp"
+        className="h-full w-full object-cover"
+      />
 
-			<div
-				class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/30 to-transparent p-6 text-white"
-			>
-				<div class="container mx-auto">
-					<h2
-						class="mb-3 text-4xl leading-tight font-bold md:text-5xl"
-					>
-						{attributes.text}
-					</h2>
-					<p class="mb-4 text-xl leading-snug md:text-2xl">
-						{attributes.subtitle}
-					</p>
-				</div>
-			</div>
-		</div>
-	</Spacer>
+      <div
+        class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/30 to-transparent p-6 text-white"
+      >
+        <div class="container mx-auto">
+          <h2 class="mb-3 text-4xl leading-tight font-bold md:text-5xl">
+            {attributes.text}
+          </h2>
+          <p class="mb-4 text-xl leading-snug md:text-2xl">
+            {attributes.subtitle}
+          </p>
+        </div>
+      </div>
+    </div>
+  </Spacer>
 </section>

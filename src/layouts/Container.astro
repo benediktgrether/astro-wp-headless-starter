@@ -1,5 +1,5 @@
 ---
-import Spacer from '@components/atoms/Spacer.astro';
+import Spacer from "@components/atoms/Spacer.astro";
 
 const { attributes, children } = Astro.props;
 
@@ -7,7 +7,7 @@ const { spacer } = attributes;
 ---
 
 <section class="container mx-auto px-4">
-	<Spacer spacer={spacer}>
-		<slot />
-	</Spacer>
+  <Spacer spacer={spacer}>
+    <slot />
+  </Spacer>
 </section>

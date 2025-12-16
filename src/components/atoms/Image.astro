@@ -1,22 +1,22 @@
 ---
 const { attributes = {}, width, height, format, className } = Astro.props;
-const src: string = attributes.src ?? '';
-const alt: string = attributes.alt ?? '';
-import type { ImageMetadata, ImageOutputFormat } from 'astro';
-import { Image as AstroImage } from 'astro:assets';
+const src: string = attributes.src ?? "";
+const alt: string = attributes.alt ?? "";
+import type { ImageMetadata, ImageOutputFormat } from "astro";
+import { Image as AstroImage } from "astro:assets";
 
 const imageWidth: number = width ?? 700;
 const imageHeight: number = height ?? 400;
-const imageFormat: ImageOutputFormat = format ?? 'webp';
+const imageFormat: ImageOutputFormat = format ?? "webp";
 ---
 
 <AstroImage
-    <AstroImage
-    src={attributes.mediaUrl}
-    alt={alt}
-    width={imageWidth}
-    height={imageHeight}
-    format={imageFormat}
-    class={className}
-    layout="constrained"
+  <AstroImage
+  src={attributes.mediaUrl}
+  alt={alt}
+  width={imageWidth}
+  height={imageHeight}
+  format={imageFormat}
+  class={className}
+  layout="constrained"
 />

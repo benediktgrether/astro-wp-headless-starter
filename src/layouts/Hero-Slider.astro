@@ -1,13 +1,23 @@
 ---
 const { attributes } = Astro.props;
-console.log('Hero-Slider attributes:', attributes);
+
+const toBool = (v, def = false) =>
+    v === undefined ? def : v === true || v === 'true';
+
+const toNumber = (v, def) => (v === undefined ? def : Number(v));
+
+const { effect = 'slide' } = attributes;
+
+const loop = toBool(attributes.loop, true);
+const autoplay = toBool(attributes.autoplay, true);
+const pagination = toBool(attributes.pagination, true);
+const navigation = toBool(attributes.navigation, true);
+
+const autoplaySpeed = toNumber(attributes.autoplaySpeed, 3000);
+const slidesPerView = toNumber(attributes.slidesPerView, 1);
+const spaceBetween = toNumber(attributes.spaceBetween, 16);
 ---
 
-<!-- <section class={`hero-slider swiper swiper-id-${attributes.uuid}`}>
-    <div class="swiper-wrapper">
-        <slot />
-    </div>
-</section> --><!-- Slider main container -->
 <div class="swiper">
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
@@ -15,19 +25,25 @@ console.log('Hero-Slider attributes:', attributes);
         <div class="swiper-slide">Slide 1</div>
         <div class="swiper-slide">Slide 2</div>
         <div class="swiper-slide">Slide 3</div>
-        ...
+        <slot />
     </div>
     <!-- If we need pagination -->
-    <div class="swiper-pagination"></div>
+
+    {pagination && <div class="swiper-pagination" />}
 
     <!-- If we need navigation buttons -->
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+    {
+        navigation && (
+            <div>
+                <div class="swiper-button-prev" />
+                <div class="swiper-button-next" />
+            </div>
+        )
+    }
 
     <!-- If we need scrollbar -->
     <div class="swiper-scrollbar"></div>
 </div>
-
 <script>
     import Swiper from 'swiper';
     import { Autoplay, Navigation, Pagination } from 'swiper/modules';

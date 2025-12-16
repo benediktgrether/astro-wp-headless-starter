@@ -1,89 +1,89 @@
 ---
-import Container from '@layouts/Container.astro';
-import Text from '@components/atoms/Text.astro';
-import Headline from '@components/atoms/Headline.astro';
-import Image from '@components/atoms/Image.astro';
-import GridContainer from '@layouts/GridContainer.astro';
-import GridItem from '@layouts/GridItem.astro';
-import BigTeaser from '@components/organisms/Big-Teaser.astro';
-import HeroSlider from '@layouts/Hero-Slider.astro';
+import Container from "@layouts/Container.astro";
+import Text from "@components/atoms/Text.astro";
+import Headline from "@components/atoms/Headline.astro";
+import Image from "@components/atoms/Image.astro";
+import GridContainer from "@layouts/GridContainer.astro";
+import GridItem from "@layouts/GridItem.astro";
+import BigTeaser from "@components/organisms/Big-Teaser.astro";
+import HeroSlider from "@layouts/Hero-Slider.astro";
 
 type Block = {
-    name: string;
-    attributes?: Record<string, any>;
-    innerBlocks?: Block[];
+  name: string;
+  attributes?: Record<string, any>;
+  innerBlocks?: Block[];
 };
 
 const { blocks = [] } = Astro.props as { blocks?: Block[] };
 ---
 
 {
-    (() => {
-        const renderBlocks = (blocksToRender: Block[] = []): any =>
-            blocksToRender.map((block) => {
-                const { name, attributes = {}, innerBlocks = [] } = block;
+  (() => {
+    const renderBlocks = (blocksToRender: Block[] = []): any =>
+      blocksToRender.map((block) => {
+        const { name, attributes = {}, innerBlocks = [] } = block;
 
-                // 1) core/post-content = Wrapper → nur Kinder rendern
-                if (name === 'core/post-content') {
-                    return renderBlocks(innerBlocks);
-                }
+        // 1) core/post-content = Wrapper → nur Kinder rendern
+        if (name === "core/post-content") {
+          return renderBlocks(innerBlocks);
+        }
 
-                // 2) Container-Block → rendert seine innerBlocks als Children
-                if (name === 'basetheme/container') {
-                    return (
-                        <Container attributes={attributes}>
-                            {renderBlocks(innerBlocks)}
-                        </Container>
-                    );
-                }
+        // 2) Container-Block → rendert seine innerBlocks als Children
+        if (name === "basetheme/container") {
+          return (
+            <Container attributes={attributes}>
+              {renderBlocks(innerBlocks)}
+            </Container>
+          );
+        }
 
-                // 3) Text-Block → rendert nur sich selbst
-                if (name === 'basetheme/text') {
-                    return <Text attributes={attributes} />;
-                }
+        // 3) Text-Block → rendert nur sich selbst
+        if (name === "basetheme/text") {
+          return <Text attributes={attributes} />;
+        }
 
-                if (name === 'basetheme/heading') {
-                    // Dynamisches Importieren des Headline-Components
-                    return <Headline attributes={attributes} />;
-                }
+        if (name === "basetheme/heading") {
+          // Dynamisches Importieren des Headline-Components
+          return <Headline attributes={attributes} />;
+        }
 
-                if (name === 'basetheme/image') {
-                    // Dynamisches Importieren des Image-Components
-                    return <Image attributes={attributes} />;
-                }
+        if (name === "basetheme/image") {
+          // Dynamisches Importieren des Image-Components
+          return <Image attributes={attributes} />;
+        }
 
-                if (name === 'basetheme/grid-container') {
-                    return (
-                        <GridContainer attributes={attributes}>
-                            {renderBlocks(innerBlocks)}
-                        </GridContainer>
-                    );
-                }
+        if (name === "basetheme/grid-container") {
+          return (
+            <GridContainer attributes={attributes}>
+              {renderBlocks(innerBlocks)}
+            </GridContainer>
+          );
+        }
 
-                if (name === 'basetheme/grid-item') {
-                    // Grid-Item-Block → rendert seine innerBlocks als Children
-                    return (
-                        <GridItem attributes={attributes}>
-                            {renderBlocks(innerBlocks)}
-                        </GridItem>
-                    );
-                }
+        if (name === "basetheme/grid-item") {
+          // Grid-Item-Block → rendert seine innerBlocks als Children
+          return (
+            <GridItem attributes={attributes}>
+              {renderBlocks(innerBlocks)}
+            </GridItem>
+          );
+        }
 
-                if (name === 'basetheme/big-teaser') {
-                    return <BigTeaser attributes={attributes} />;
-                }
+        if (name === "basetheme/big-teaser") {
+          return <BigTeaser attributes={attributes} />;
+        }
 
-                if (name === 'basetheme/hero-slider') {
-                    return (
-                        <HeroSlider attributes={attributes}>
-                            {renderBlocks(innerBlocks)}
-                        </HeroSlider>
-                    );
-                }
-                // 4) Fallback: unbekannte Blöcke ignorieren
-                return null;
-            });
+        if (name === "basetheme/hero-slider") {
+          return (
+            <HeroSlider attributes={attributes}>
+              {renderBlocks(innerBlocks)}
+            </HeroSlider>
+          );
+        }
+        // 4) Fallback: unbekannte Blöcke ignorieren
+        return null;
+      });
 
-        return renderBlocks(blocks);
-    })()
+    return renderBlocks(blocks);
+  })()
 }

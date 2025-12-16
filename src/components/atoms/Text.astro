@@ -1,6 +1,6 @@
 ---
 const { attributes = {} } = Astro.props;
-const text: string = attributes.text ?? '';
+const text: string = attributes.text ?? "";
 ---
 
 <p class="text-block" set:html={text} />
