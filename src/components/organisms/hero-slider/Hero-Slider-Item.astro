@@ -1,0 +1,51 @@
+---
+import Image from '@components/atoms/Image.astro';
+
+const { attributes } = Astro.props;
+---
+
+<div class="swiper-slide hero-slide h-full">
+    <div class="hero-slider relative h-screen">
+        <!-- Background image -->
+        <div
+            class="relative h-full w-full after:pointer-events-none after:absolute after:inset-0 after:z-0 after:z-10 after:bg-black/20 after:content-['']"
+        >
+            <Image
+                attributes={attributes}
+                width={2440}
+                height={900}
+                format="webp"
+                className="h-full w-full object-cover"
+            />
+        </div>
+
+        <!-- Content -->
+        <div class="absolute inset-0 z-10 translate-y-1/2">
+            <div class="container mx-auto px-4">
+                <div class="-mx-2 flex flex-wrap">
+                    <div class="w-full px-2">
+                        <!-- Headline -->
+                        <h2
+                            class="mb-6 text-5xl leading-tight font-bold text-white xl:text-6xl 2xl:text-7xl"
+                        >
+                            {attributes.text}
+                        </h2>
+
+                        <!-- Subtitle -->
+                        <p class="mb-6 text-lg text-white/90 xl:text-xl">
+                            {attributes.subtitle}
+                        </p>
+
+                        <!-- Button -->
+                        <a
+                            href={attributes.linkObject.url}
+                            class="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-semibold text-black transition hover:bg-gray-200"
+                        >
+                            {attributes.linkObject.title}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

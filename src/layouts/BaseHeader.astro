@@ -15,7 +15,7 @@ const { pathname } = Astro.url;
 const isActive = (url: string) => pathname === url || pathname === `${url}/`;
 ---
 
-<header class="header sticky top-0 z-30 p-4">
+<header class="header fixed top-0 z-30 w-full p-4">
     <nav class="navbar container mx-auto flex items-center justify-between">
         <!-- logo -->
         <div class="order-0">
