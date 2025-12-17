@@ -1,23 +1,24 @@
 ---
-import NavMenu from "./BaseHeader.astro";
-import Container from "./Container.astro";
-import "../styles/global.css";
+import NavMenu from './BaseHeader.astro';
+import Container from './Container.astro';
+import '../styles/global.css';
 
 const { title } = Astro.props;
 ---
 
 <html lang="de">
-  <head>
-    <meta charset="utf-8" />
-    <title>{title}</title>
-  </head>
-  <body>
-    <header>
-      <NavMenu />
-    </header>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{title}</title>
+    </head>
+    <body>
+        <header>
+            <NavMenu />
+        </header>
 
-    <main class="mt-20">
-      <slot />
-    </main>
-  </body>
+        <main class="mt-20">
+            <slot />
+        </main>
+    </body>
 </html>
