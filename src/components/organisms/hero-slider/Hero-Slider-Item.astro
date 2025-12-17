@@ -1,9 +1,14 @@
 ---
 import Image from '@components/atoms/Image.astro';
+import Buttons from '@components/atoms/Buttons.astro';
 
 const { attributes } = Astro.props;
+const buttonVariant = attributes.buttonColorName
+    ? attributes.buttonColorName
+    : 'primary';
 
-// attributes.buttonColorName
+console.log(attributes.buttonColorName);
+console.log(buttonVariant);
 ---
 
 <div class="swiper-slide hero-slide h-full">
@@ -39,12 +44,12 @@ const { attributes } = Astro.props;
                         </p>
 
                         <!-- Button -->
-                        <a
+                        <Buttons
                             href={attributes.linkObject.url}
-                            class="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-semibold text-black transition hover:bg-gray-200"
+                            variant={buttonVariant}
                         >
                             {attributes.linkObject.title}
-                        </a>
+                        </Buttons>
                     </div>
                 </div>
             </div>
