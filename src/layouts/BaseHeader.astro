@@ -15,7 +15,7 @@ const { pathname } = Astro.url;
 const isActive = (url: string) => pathname === url || pathname === `${url}/`;
 ---
 
-<header class="header sticky top-0 z-30">
+<header class="header sticky top-0 z-30 p-4">
     <nav class="navbar container mx-auto flex items-center justify-between">
         <!-- logo -->
         <div class="order-0">
@@ -125,10 +125,15 @@ const isActive = (url: string) => pathname === url || pathname === `${url}/`;
 <!-- Optional: if your CSS expects show/hide icons based on checkbox -->
 <style>
     /* If your template CSS doesn't already do this, enable icon swap */
-    #nav-toggle:checked + label #show-button {
-        display: none;
-    }
-    #nav-toggle:checked + label #hide-button {
+    /* Mobile: open/close main menu via checkbox */
+    #nav-toggle:checked ~ #nav-menu {
         display: block;
+    }
+
+    /* Keep desktop behavior */
+    @media (min-width: 1024px) {
+        #nav-menu {
+            display: flex !important;
+        }
     }
 </style>
