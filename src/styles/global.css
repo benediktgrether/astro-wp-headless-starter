@@ -1,4 +1,8 @@
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
 
 @import './config/_colors.css';
 @import './config/_typography.css';
+
+
+@import "./layout/_navigation.css";

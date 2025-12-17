@@ -1,74 +1,134 @@
 ---
+import Logo from '@components/ui/Logo.astro';
+import ThemeSwitcher from './components/ThemeSwitcher.astro';
+// import config from '@/config/config.json';
+// import { IoSearch } from 'react-icons/io5';
+
 import type { MenuItem } from '../lib/wp-menu';
 import { getFseMenu } from '../lib/wp-menu';
 
 const menuItems: MenuItem[] = await getFseMenu('navigation');
 
-// Client-Side Toggle für Mobile Nav:
-const mobileToggleScript = `
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.querySelector('[data-mobile-toggle]');
-    const nav = document.querySelector('[data-mobile-nav]');
-    btn?.addEventListener('click', () => {
-      nav?.classList.toggle('hidden');
-    });
-  });
-`;
+// const { navigation_button, settings } = config;
+const { pathname } = Astro.url;
+
+const isActive = (url: string) => pathname === url || pathname === `${url}/`;
 ---
 
-<head>
-    <script is:inline set:html={mobileToggleScript} />
-</head>
+<header class="header sticky top-0 z-30">
+    <nav class="navbar container mx-auto flex items-center justify-between">
+        <!-- logo -->
+        <div class="order-0">
+            <Logo />
+        </div>
 
-<header class="w-full border-b border-gray-200 bg-white">
-    <div
-        class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6"
-    >
-        <!-- Logo -->
-        <a href="/" class="text-xl font-semibold tracking-tight">Astro Demo</a>
-
-        <!-- Mobile Toggle Button -->
-        <button
-            data-mobile-toggle
-            class="block rounded-md border border-gray-300 px-3 py-2 text-sm md:hidden"
+        <!-- navbar toggler -->
+        <input id="nav-toggle" type="checkbox" class="hidden" />
+        <label
+            for="nav-toggle"
+            class="text-text-dark order-3 flex cursor-pointer items-center lg:order-1 lg:hidden dark:text-white"
         >
-            Menu
-        </button>
+            <svg
+                id="show-button"
+                class="block h-6 fill-current"
+                viewBox="0 0 20 20"
+            >
+                <title>Menu Open</title>
+                <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
+            </svg>
+            <svg
+                id="hide-button"
+                class="hidden h-6 fill-current"
+                viewBox="0 0 20 20"
+            >
+                <title>Menu Close</title>
+                <polygon
+                    points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
+                    transform="rotate(45 10 10)"></polygon>
+            </svg>
+        </label>
+        <!-- /navbar toggler -->
 
-        <!-- Navigation -->
-        <nav
-            data-mobile-nav
-            class="hidden w-full flex-col gap-4 pt-4 md:flex md:w-auto md:flex-row md:items-center md:gap-6 md:pt-0"
+        <!-- nav -->
+        <ul
+            id="nav-menu"
+            class="navbar-nav order-3 hidden w-full pb-6 lg:order-1 lg:flex lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8"
         >
-            <ul class="flex flex-col gap-4 md:flex-row md:gap-6">
-                {
-                    menuItems.map((item) => (
-                        <li class="group relative">
-                            <a
-                                href={item.url}
-                                class="block py-2 text-gray-700 hover:text-black"
-                            >
-                                {item.label}
-                            </a>
+            {
+                menuItems.map((item) => {
+                    const hasChildren =
+                        item.children && item.children.length > 0;
+                    const childUrls = item.children?.map((c) => c.url) ?? [];
+                    const isParentActive =
+                        isActive(item.url) ||
+                        childUrls.some((u) => isActive(u));
 
-                            {item.children.length > 0 && (
-                                <ul class="absolute top-full left-0 hidden w-48 rounded-md border border-gray-200 bg-white shadow-md group-hover:block md:group-hover:block">
-                                    {item.children.map((child) => (
-                                        <li>
-                                            <a
-                                                href={child.url}
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                                            >
-                                                {child.label}
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
+                    return (
+                        <>
+                            {hasChildren ? (
+                                <li class="nav-item nav-dropdown group relative">
+                                    <input
+                                        type="checkbox"
+                                        id={`submenu-${item.label}`}
+                                        class="peer hidden lg:hidden"
+                                    />
+                                    <label
+                                        for={`submenu-${item.label}`}
+                                        class={`nav-link inline-flex items-center ${isParentActive ? 'active' : ''}`}
+                                    >
+                                        {item.label}
+                                        <svg
+                                            class="h-4 w-4 fill-current"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                        </svg>
+                                    </label>
+
+                                    <ul class="nav-dropdown-list hidden peer-checked:block lg:invisible lg:absolute lg:block lg:opacity-0 lg:group-hover:visible lg:group-hover:opacity-100">
+                                        {item.children.map((child) => (
+                                            <li class="nav-dropdown-item">
+                                                <a
+                                                    href={child.url}
+                                                    aria-label={child.label}
+                                                    class={`nav-dropdown-link block ${isActive(child.url) ? 'active' : ''}`}
+                                                >
+                                                    {child.label}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </li>
+                            ) : (
+                                <li class="nav-item">
+                                    <a
+                                        href={item.url}
+                                        class={`nav-link block ${isActive(item.url) ? 'active' : ''}`}
+                                    >
+                                        {item.label}
+                                    </a>
+                                </li>
                             )}
-                        </li>
-                    ))
-                }
-            </ul>
-        </nav>
-    </div>
+                        </>
+                    );
+                })
+            }
+        </ul>
+
+        <!-- right side -->
+        <div class="order-1 ml-auto flex items-center md:order-2 lg:ml-0">
+            <ThemeSwitcher className="mr-5" />
+        </div>
+    </nav>
 </header>
+
+<!-- Optional: if your CSS expects show/hide icons based on checkbox -->
+<style>
+    /* If your template CSS doesn't already do this, enable icon swap */
+    #nav-toggle:checked + label #show-button {
+        display: none;
+    }
+    #nav-toggle:checked + label #hide-button {
+        display: block;
+    }
+</style>
