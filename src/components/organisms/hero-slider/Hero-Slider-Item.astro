@@ -1,8 +1,9 @@
 ---
 import Image from '@components/atoms/Image.astro';
-import Buttons from '@components/atoms/Buttons.astro';
+import Button from '@components/atoms/Button.astro';
 
 const { attributes } = Astro.props;
+const { text, subtitle, linkObject } = attributes;
 const buttonVariant = attributes.buttonColorName
     ? attributes.buttonColorName
     : 'primary';
@@ -32,24 +33,34 @@ console.log(buttonVariant);
                 <div class="-mx-2 flex flex-wrap">
                     <div class="w-full px-2">
                         <!-- Headline -->
-                        <h2
-                            class="mb-6 text-5xl leading-tight font-bold text-white xl:text-6xl 2xl:text-7xl"
-                        >
-                            {attributes.text}
-                        </h2>
+                        {
+                            text && (
+                                <h2 class="mb-6 text-5xl leading-tight font-bold text-white xl:text-6xl 2xl:text-7xl">
+                                    {text}
+                                </h2>
+                            )
+                        }
 
                         <!-- Subtitle -->
-                        <p class="mb-6 text-lg text-white/90 xl:text-xl">
-                            {attributes.subtitle}
-                        </p>
+                        {
+                            subtitle && (
+                                <p class="mb-6 text-lg text-white/90 xl:text-xl">
+                                    {subtitle}
+                                </p>
+                            )
+                        }
 
                         <!-- Button -->
-                        <Buttons
-                            href={attributes.linkObject.url}
-                            variant={buttonVariant}
-                        >
-                            {attributes.linkObject.title}
-                        </Buttons>
+                        {
+                            linkObject?.url && (
+                                <Button
+                                    href={attributes.linkObject.url}
+                                    variant={buttonVariant}
+                                >
+                                    {attributes.linkObject.title}
+                                </Button>
+                            )
+                        }
                     </div>
                 </div>
             </div>
