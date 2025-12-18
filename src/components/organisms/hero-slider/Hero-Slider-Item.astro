@@ -26,7 +26,7 @@ interface Props {
 const { attributes } = Astro.props as Props;
 const { text, subtitle, linkObject, buttonColorName } = attributes;
 
-const buttonVariant: ButtonVariant = buttonColorName ?? 'primary';
+const buttonVariant = buttonColorName ?? 'primary';
 ---
 
 <div class="swiper-slide hero-slide h-full">
