@@ -1,15 +1,32 @@
 ---
 import Image from '@components/atoms/Image.astro';
-import Button from '@components/atoms/Button.astro';
+import Button, { type ButtonVariant } from '@components/atoms/Button.astro';
 
-const { attributes } = Astro.props;
-const { text, subtitle, linkObject } = attributes;
-const buttonVariant = attributes.buttonColorName
-    ? attributes.buttonColorName
-    : 'primary';
+export interface LinkObject {
+    url: string;
+    id: number;
+    title: string;
+    type: string; // e.g. "page"
+    kind: string; // e.g. "post-type"
+    isFrontPage: boolean;
+    openInNewTab: boolean;
+}
 
-console.log(attributes.buttonColorName);
-console.log(buttonVariant);
+interface HeroItemAttributes {
+    text?: string;
+    subtitle?: string;
+    linkObject?: LinkObject;
+    buttonColorName?: ButtonVariant; // must be a valid Button variant
+}
+
+interface Props {
+    attributes: HeroItemAttributes;
+}
+
+const { attributes } = Astro.props as Props;
+const { text, subtitle, linkObject, buttonColorName } = attributes;
+
+const buttonVariant: ButtonVariant = buttonColorName ?? 'primary';
 ---
 
 <div class="swiper-slide hero-slide h-full">
@@ -54,10 +71,15 @@ console.log(buttonVariant);
                         {
                             linkObject?.url && (
                                 <Button
-                                    href={attributes.linkObject.url}
+                                    href={linkObject.url}
+                                    target={
+                                        linkObject.openInNewTab
+                                            ? '_blank'
+                                            : undefined
+                                    }
                                     variant={buttonVariant}
                                 >
-                                    {attributes.linkObject.title}
+                                    {linkObject.title}
                                 </Button>
                             )
                         }
