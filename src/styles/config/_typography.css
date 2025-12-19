@@ -49,5 +49,11 @@ h6 {
 }
 
 p {
-  @apply text-lg leading-relaxed xl:text-xl dark:text-darkmode-dark;
+  @apply leading-relaxed xl:text-lg dark:text-darkmode-dark;
+}
+
+.text-block,
+.headline {
+  @apply mx-auto;
+  max-width: 48.75rem;
 }
