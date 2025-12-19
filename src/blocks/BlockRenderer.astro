@@ -9,6 +9,9 @@ import BigTeaser from '@components/organisms/Big-Teaser.astro';
 import HeroSlider from '@layouts/Hero-Slider.astro';
 import HeroSliderItem from '@components/organisms/hero-slider/Hero-Slider-Item.astro';
 
+import AccordionContainer from '@layouts/AccordionContainer.astro';
+import AccordionItem from '@components/organisms/accordion/Accordion-Item.astro';
+
 type Block = {
     name: string;
     attributes?: Record<string, any>;
@@ -84,6 +87,18 @@ const { blocks = [] } = Astro.props as { blocks?: Block[] };
 
                 if (name === 'basetheme/hero-slider-item') {
                     return <HeroSliderItem attributes={attributes} />;
+                }
+
+                if (name === 'basetheme/accordion-container') {
+                    return (
+                        <AccordionContainer attributes={attributes}>
+                            {renderBlocks(innerBlocks)}
+                        </AccordionContainer>
+                    );
+                }
+
+                if (name === 'basetheme/accordion-item') {
+                    return <AccordionItem attributes={attributes} />;
                 }
                 // 4) Fallback: unbekannte Blöcke ignorieren
                 return null;

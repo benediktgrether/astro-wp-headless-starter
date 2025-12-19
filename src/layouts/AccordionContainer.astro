@@ -1,0 +1,64 @@
+---
+interface Props {
+    attributes: {
+        uuid: string;
+    };
+}
+
+const { attributes } = Astro.props as Props;
+const { uuid } = attributes;
+
+const initScript = `
+document.addEventListener('DOMContentLoaded', () => {
+  const root = document.querySelector('[data-accordion-id="${uuid}"]');
+  if (!root) return;
+
+  const items = Array.from(root.querySelectorAll('[data-accordion-item]'));
+
+  items.forEach((item) => {
+    const btn = item.querySelector('[data-accordion-trigger]');
+    const panel = item.querySelector('[data-accordion-panel]');
+    const icon = item.querySelector('[data-accordion-icon]');
+
+    if (!btn || !panel) return;
+
+    // start closed
+    btn.setAttribute('aria-expanded', 'false');
+    panel.setAttribute('hidden', 'true');
+
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+      // Close all first (one-at-a-time behavior)
+      items.forEach((otherItem) => {
+        const otherBtn = otherItem.querySelector('[data-accordion-trigger]');
+        const otherPanel = otherItem.querySelector('[data-accordion-panel]');
+        const otherIcon = otherItem.querySelector('[data-accordion-icon]');
+        if (!otherBtn || !otherPanel) return;
+        otherBtn.setAttribute('aria-expanded', 'false');
+        otherPanel.setAttribute('hidden', 'true');
+        if (otherIcon) {
+          otherIcon.classList.remove('rotate-180');
+        }
+      });
+
+      // If this one was closed before, open it
+      if (!isExpanded) {
+        btn.setAttribute('aria-expanded', 'true');
+        panel.removeAttribute('hidden');
+        if (icon) {
+          icon.classList.add('rotate-180');
+        }
+      }
+    });
+  });
+});
+`;
+---
+
+<div class="flex flex-col flex-wrap justify-center" data-accordion-id={uuid}>
+    <div class="mx-auto lg:w-3/4">
+        <script is:inline set:html={initScript} />
+        <slot />
+    </div>
+</div>
